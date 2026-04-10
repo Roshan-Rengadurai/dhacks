@@ -35,11 +35,22 @@ export default function LandingPage() {
               </span>
             </h1>
 
-            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              EnergyIQ maps your business to real EPA emission data, shows you
-              exactly where energy goes, and gives you a concrete plan to cut
-              costs and carbon — zip code by zip code.
-            </p>
+            <div className="max-w-2xl space-y-3 text-lg leading-relaxed text-muted-foreground sm:text-xl">
+              <p>
+                Terrain pulls real EPA eGRID data by ZIP code to calculate your
+                business&apos;s energy footprint and CO₂ impact using your actual
+                utility grid&apos;s emission factor.
+              </p>
+              <p>
+                Toggle proven actions like LED retrofits or fridge tune-ups to
+                see live savings and score updates — California grid savings
+                differ 2.7X from Midwest.
+              </p>
+              <p>
+                Your personalized action plan ranks highest-ROI fixes for your
+                location, turning energy waste into immediate profit.
+              </p>
+            </div>
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link href="/auth/signup">

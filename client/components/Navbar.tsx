@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -38,9 +39,16 @@ export default function Navbar() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
-          className="font-heading text-xl font-bold tracking-tight text-foreground"
+          className="flex items-center gap-2 font-heading text-xl font-bold tracking-tight text-foreground"
         >
-          EnergyIQ
+          <Image
+            src="/terrain-logo.png"
+            alt="Terrain logo"
+            width={36}
+            height={36}
+            priority
+          />
+          <span>Terrain</span>
         </Link>
 
         <div className="flex items-center gap-3">

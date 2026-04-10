@@ -17,6 +17,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = getSupabaseBrowserClient();
@@ -24,6 +25,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    setSuccess(null);
     setLoading(true);
 
     if (!supabase) {
@@ -32,7 +34,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
       return;
     }
 
-    const { error: authError } =
+    const { data, error: authError } =
       mode === "login"
         ? await supabase.auth.signInWithPassword({ email, password })
         : await supabase.auth.signUp({ email, password });
@@ -45,6 +47,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
           ? "Wrong email or password — double-check and try again"
           : authError.message
       );
+      return;
+    }
+
+    if (!isLogin && !data.session) {
+      setSuccess("Account created. Check your email to confirm, then sign in.");
       return;
     }
 
@@ -98,6 +105,11 @@ export default function AuthForm({ mode }: AuthFormProps) {
             {error && (
               <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {error}
+              </p>
+            )}
+            {success && (
+              <p className="rounded-md bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700">
+                {success}
               </p>
             )}
 
