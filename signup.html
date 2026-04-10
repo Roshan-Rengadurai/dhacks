@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terrain -- Sign up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <main class="auth-page">
+      <div class="auth-card">
+        <p class="eyebrow">Join Terrain</p>
+        <h1>Create your workspace</h1>
+        <p class="lede">Request access to the Terrain prediction studio.</p>
+        <form>
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input id="name" type="text" placeholder="Alex Rivers" />
+          </div>
+          <div class="form-group">
+            <label for="email">Work email</label>
+            <input id="email" type="email" placeholder="alex@terrain.studio" />
+          </div>
+          <div class="form-group">
+            <label for="org">Organization</label>
+            <input id="org" type="text" placeholder="Terrain Research Lab" />
+          </div>
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role">
+              <option>Research lead</option>
+              <option>Data scientist</option>
+              <option>Program manager</option>
+              <option>Policy partner</option>
+            </select>
+          </div>
+          <button class="btn primary" type="submit">Request access</button>
+          <div class="form-footer">
+            <a href="login.html">Already have access?</a>
+            <a href="index.html">Back to Terrain</a>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

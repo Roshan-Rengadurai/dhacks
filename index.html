@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terrain -- A Living Data Surface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Work+Sans:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <header class="site-header">
+      <div class="brand">Terrain</div>
+      <nav class="nav">
+        <a class="nav-link" href="#tabs">Platform</a>
+        <a class="nav-link" href="#studio">Studio</a>
+        <a class="nav-link" href="#values">Values</a>
+        <a class="nav-link" href="#contact">Contact</a>
+        <a class="nav-link ghost" href="login.html">Login</a>
+        <a class="nav-link solid" href="signup.html">Sign up</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <canvas id="hero-webgl" aria-hidden="true"></canvas>
+        <div class="hero-forest" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">Terrain -- Modeling living systems</p>
+          <h1>
+            Grow
+            <span>insightful</span>
+            environments
+            <span>for prediction</span>
+          </h1>
+          <p class="lede">
+            Terrain is a dark-green, earth-toned studio for forecasting environmental and
+            ecological outcomes, designed to feel tactile, grounded, and human.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="signup.html">Request access</a>
+            <a class="btn" href="#tabs">Explore the platform</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="tabs" id="tabs">
+        <div class="tabs-header">
+          <h2>Platform tabs</h2>
+          <p>Switch between modules that shape how Terrain predicts, plans, and reports.</p>
+        </div>
+        <div class="tab-controls" role="tablist" aria-label="Terrain modules">
+          <button class="tab-button active" role="tab" aria-selected="true" aria-controls="tab-forecast" id="tab-forecast-button">
+            Forecast
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-scenarios" id="tab-scenarios-button">
+            Scenarios
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-monitor" id="tab-monitor-button">
+            Monitor
+          </button>
+          <button class="tab-button" role="tab" aria-selected="false" aria-controls="tab-collab" id="tab-collab-button">
+            Collaborate
+          </button>
+        </div>
+        <div class="tab-panels">
+          <article class="tab-panel active" role="tabpanel" id="tab-forecast" aria-labelledby="tab-forecast-button">
+            <h3>Forecast</h3>
+            <p>
+              Fuse sensor feeds, satellite indices, and field notes into a prediction model that stays
+              accountable to living systems.
+            </p>
+            <ul>
+              <li>Spatial + temporal forecasting with transparent confidence.</li>
+              <li>Natural-language reports for stakeholders.</li>
+              <li>Exportable model snapshots for downstream use.</li>
+            </ul>
+          </article>
+          <article class="tab-panel" role="tabpanel" id="tab-scenarios" aria-labelledby="tab-scenarios-button">
+            <h3>Scenarios</h3>
+            <p>
+              Compare interventions with a scenario builder tuned for ecosystem balance and
+              operational constraints.
+            </p>
+            <ul>
+              <li>Run side-by-side land-use interventions.</li>
+              <li>Measure ecological + financial impact.</li>
+              <li>Track outcomes across seasons.</li>
+            </ul>
+          </article>
+          <article class="tab-panel" role="tabpanel" id="tab-monitor" aria-labelledby="tab-monitor-button">
+            <h3>Monitor</h3>
+            <p>
+              Stay in sync with the field using living dashboards that update with low-energy,
+              high-context signals.
+            </p>
+            <ul>
+              <li>Event-driven alerts with ecological thresholds.</li>
+              <li>Live telemetry timelines.</li>
+              <li>Adaptive anomaly detection.</li>
+            </ul>
+          </article>
+          <article class="tab-panel" role="tabpanel" id="tab-collab" aria-labelledby="tab-collab-button">
+            <h3>Collaborate</h3>
+            <p>
+              Align teams with a shared, narratable model of the environment, grounded in
+              responsible, accessible design.
+            </p>
+            <ul>
+              <li>Shared annotations across the model surface.</li>
+              <li>Role-aware review cycles.</li>
+              <li>Stakeholder-ready summaries.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="problem" id="problem">
+        <div class="problem-grid">
+          <div class="problem-copy">
+            <p class="eyebrow">Why now</p>
+            <h2>The Problem</h2>
+            <p class="problem-intro">
+              Small businesses waste $25B+ yearly on preventable environmental issues like food,
+              energy, and disposal, but sustainability tools are often too vague, complex, or
+              generic to help them act.
+            </p>
+            <ol class="problem-list">
+              <li>
+                Switched to energy costs (small business total $60B/yr) -- tied to EPA/commercial
+                building data and differentiated from sentence-level "waste."
+              </li>
+              <li>
+                Commercial buildings spend huge amounts on energy. U.S. commercial buildings used
+                about 6.8 quadrillion Btu and spent $141 billion on energy in 2018.
+              </li>
+              <li>
+                EPA says homes and commercial buildings accounted for 31 percent of U.S. greenhouse
+                gas emissions in 2022, with a large share tied to electricity use.
+              </li>
+            </ol>
+          </div>
+          <aside class="problem-metrics" aria-label="Key market and trust metrics">
+            <article class="metric-bubble">
+              <h3>Demand: $25B</h3>
+              <p>U.S. restaurants waste yearly 75% edible money to landfill.</p>
+            </article>
+            <article class="metric-bubble">
+              <h3>Trust: 63%</h3>
+              <p>U.S. restaurants waste yearly 75% edible money to landfill.</p>
+            </article>
+            <article class="metric-bubble">
+              <h3>Growth: $16B</h3>
+              <p>U.S. restaurants waste yearly 75% edible money to landfill.</p>
+            </article>
+          </aside>
+        </div>
+      </section>
+
+      <section class="split" id="studio">
+        <div>
+          <h2>Studio</h2>
+          <p>
+            Terrain is built for teams modeling living systems, from conservation programs to climate
+            resilience labs. We keep the interface calm, the data meaningful, and the technology
+            respectfully light.
+          </p>
+        </div>
+        <div class="card-grid">
+          <article class="card">
+            <h3>Signal design</h3>
+            <p>We translate ecological signals into legible, grounded interfaces.</p>
+          </article>
+          <article class="card">
+            <h3>Data stewardship</h3>
+            <p>We prioritize provenance, transparency, and shared responsibility.</p>
+          </article>
+          <article class="card">
+            <h3>Model coaching</h3>
+            <p>We keep teams aligned with model intent and limits.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="values" id="values">
+        <h2>Values</h2>
+        <div class="value-list">
+          <p>Work with the grain of the planet, not against it.</p>
+          <p>Prefer clarity over noise.</p>
+          <p>Use fewer resources to make better predictions.</p>
+          <p>Design for trust and accessibility.</p>
+        </div>
+      </section>
+
+      <section class="contact" id="contact">
+        <h2>Contact</h2>
+        <p>Ready to shape your predictive terrain? Let's build it together.</p>
+        <a class="btn primary" href="mailto:hello@terrain.studio">hello@terrain.studio</a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>(c) 2026 Terrain. Crafted with restraint and care.</p>
+    </footer>
+
+    <div class="custom-cursor" aria-hidden="true">
+      <span class="cursor-ring"></span>
+      <span class="cursor-dot"></span>
+    </div>
+
+    <script src="webgl.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+    ></script>
+    <script src="main.js"></script>
+  </body>
+</html>
