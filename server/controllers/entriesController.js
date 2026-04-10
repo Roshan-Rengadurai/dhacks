@@ -2,6 +2,8 @@ const supabase = require("../lib/supabase");
 const egridLookup = require("../data/egrid-lookup.json");
 const businessProfiles = require("../data/business-profiles.json");
 const { getAirQuality } = require("../lib/airquality");
+const { compareToBenchmark, co2Equivalencies, projectedSavings } = require("../lib/insights");
+const logger = require("../lib/logger");
 
 function findSubregion(zipCode) {
   const prefix = zipCode.slice(0, 3);
@@ -98,17 +100,24 @@ async function createEntry(req, res) {
     .single();
 
   if (error) {
-    console.error("Insert error:", error);
+    logger.error({ route: "POST /api/entries", message: "Insert failed", error: error.message });
     return res.status(500).json({
       error: "Couldn't save your entry — check that the entries table exists in Supabase",
     });
   }
 
-  // Return the row enriched with computed fields (not stored in DB)
+  // Enrich response with insights (computed, not stored)
+  const benchmark = compareToBenchmark(analysis.estimated_kwh, square_footage, profile);
+  const equivalencies = co2Equivalencies(analysis.estimated_co2_lbs);
+  const savings = projectedSavings(analysis.actions, analysis.estimated_kwh, analysis.estimated_co2_lbs, region.co2_rate);
+
   res.status(201).json({
     ...data,
     breakdown: analysis.breakdown,
     air_quality: airQuality,
+    benchmark,
+    equivalencies,
+    savings,
   });
 }
 
@@ -144,7 +153,12 @@ async function updateEntry(req, res) {
     return res.status(404).json({ error: "Entry not found or it's not yours" });
   }
 
-  res.json(data);
+  // Re-enrich with updated savings projections
+  const profile = businessProfiles[data.business_type];
+  const savings = projectedSavings(actions, data.estimated_kwh, data.estimated_co2_lbs, data.emission_factor);
+  const equivalencies = co2Equivalencies(data.estimated_co2_lbs);
+
+  res.json({ ...data, savings, equivalencies });
 }
 
 async function deleteEntry(req, res) {
@@ -163,4 +177,44 @@ async function deleteEntry(req, res) {
   res.status(204).end();
 }
 
-module.exports = { getEntries, createEntry, updateEntry, deleteEntry };
+async function getHistory(req, res) {
+  const { data, error } = await supabase
+    .from("entries")
+    .select("id, business_type, zip_code, energy_score, energy_grade, estimated_kwh, estimated_co2_lbs, created_at")
+    .eq("user_id", req.user.id)
+    .order("created_at", { ascending: true });
+
+  if (error) {
+    return res.status(500).json({ error: "Couldn't load history" });
+  }
+
+  if (data.length < 2) {
+    return res.json({
+      entries: data,
+      trend: null,
+      message: "Submit at least 2 analyses to see your trend.",
+    });
+  }
+
+  const first = data[0];
+  const latest = data[data.length - 1];
+  const scoreDelta = latest.energy_score - first.energy_score;
+  const co2Delta = Math.round((latest.estimated_co2_lbs - first.estimated_co2_lbs) * 100) / 100;
+
+  return res.json({
+    entries: data,
+    trend: {
+      score_change: scoreDelta,
+      co2_change_lbs: co2Delta,
+      direction: scoreDelta > 0 ? "improving" : scoreDelta < 0 ? "declining" : "stable",
+      message:
+        scoreDelta > 0
+          ? `Your energy score improved by ${scoreDelta} points since your first analysis.`
+          : scoreDelta < 0
+            ? `Your energy score dropped by ${Math.abs(scoreDelta)} points — review your action plan.`
+            : "Your energy score is unchanged.",
+    },
+  });
+}
+
+module.exports = { getEntries, createEntry, updateEntry, deleteEntry, getHistory };
