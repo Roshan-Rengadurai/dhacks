@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fontsource/geist-sans": "^5.2.5",
+    "geist": "^1.7.0"
+  }
+}

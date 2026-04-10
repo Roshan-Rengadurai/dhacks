@@ -29,6 +29,7 @@ const cursorRing = document.querySelector(".cursor-ring");
 const cursorDot = document.querySelector(".cursor-dot");
 
 if (hero && forest) {
+  const treesPerType = 3;
   const treeTypes = [
     { id: "pine", src: "pine_tree_low_poly.glb" },
     { id: "birch", src: "birch_tree_-_low_poly.glb" },
@@ -36,8 +37,8 @@ if (hero && forest) {
   ];
 
   function isInBlockedArea(point) {
-    // Keep the headline and CTA area clear.
-    const blocked = point.x > 0.06 && point.x < 0.58 && point.y > 0.14 && point.y < 0.84;
+    // Keep only the dense left copy area clear, allow center composition.
+    const blocked = point.x > 0.06 && point.x < 0.44 && point.y > 0.18 && point.y < 0.8;
     return blocked;
   }
 
@@ -45,6 +46,24 @@ if (hero && forest) {
     const points = [];
     const minDistance = 0.16;
     let attempts = 0;
+
+    // Force a subset of points into center corridor so trees aren't right-heavy.
+    const centerCount = Math.min(6, Math.floor(count * 0.4));
+    while (points.length < centerCount && attempts < 1000) {
+      attempts += 1;
+      const point = {
+        x: 0.43 + Math.random() * 0.22,
+        y: 0.2 + Math.random() * 0.62,
+      };
+
+      const tooClose = points.some((existing) => {
+        const dx = point.x - existing.x;
+        const dy = point.y - existing.y;
+        return Math.hypot(dx, dy) < minDistance;
+      });
+
+      if (!tooClose) points.push(point);
+    }
 
     while (points.length < count && attempts < 1800) {
       attempts += 1;
@@ -74,12 +93,20 @@ if (hero && forest) {
     return points;
   }
 
-  const spawnPoints = generateSpawnPoints(treeTypes.length * 3);
+  function applyScrambledAnchors(states) {
+    const nextPoints = generateSpawnPoints(states.length);
+    states.forEach((state, index) => {
+      state.targetAnchorX = nextPoints[index].x;
+      state.targetAnchorY = nextPoints[index].y;
+    });
+  }
+
+  const spawnPoints = generateSpawnPoints(treeTypes.length * treesPerType);
 
   const trees = [];
   treeTypes.forEach((type, typeIndex) => {
-    for (let i = 0; i < 3; i += 1) {
-      const point = spawnPoints[typeIndex * 3 + i];
+    for (let i = 0; i < treesPerType; i += 1) {
+      const point = spawnPoints[typeIndex * treesPerType + i];
       const tree = document.createElement("button");
       tree.type = "button";
       tree.className = `poly-tree tree-${type.id}`;
@@ -87,10 +114,11 @@ if (hero && forest) {
       tree.style.left = `${point.x * 100}%`;
       tree.style.top = `${point.y * 100}%`;
       const yaw = `${Math.floor(Math.random() * 360)}deg`;
+      const scale = (0.84 + Math.random() * 0.34).toFixed(2);
       tree.innerHTML = `
         <model-viewer
           src="${type.src}"
-          loading="eager"
+          loading="lazy"
           disable-pan
           disable-zoom
           interaction-prompt="none"
@@ -100,6 +128,7 @@ if (hero && forest) {
           camera-orbit="35deg 75deg auto"
           field-of-view="30deg"
           orientation="0deg ${yaw} 0deg"
+          style="transform: scale(${scale}); transform-origin: center;"
           exposure="1.2"
           shadow-intensity="0.9"
           environment-image="neutral"
@@ -118,11 +147,15 @@ if (hero && forest) {
   };
 
   const cursorPos = { x: pointer.x, y: pointer.y };
+  let heroInView = true;
+  let pageVisible = !document.hidden;
 
   const treeState = trees.map((tree, index) => ({
     element: tree,
     anchorX: parseFloat(tree.style.left) / 100,
     anchorY: parseFloat(tree.style.top) / 100,
+    targetAnchorX: parseFloat(tree.style.left) / 100,
+    targetAnchorY: parseFloat(tree.style.top) / 100,
     amplitude: 10 + Math.random() * 12,
     speed: 0.0008 + Math.random() * 0.0007,
     phase: index * 0.62,
@@ -131,36 +164,42 @@ if (hero && forest) {
   }));
 
   function animateFrame(time) {
+    const shouldAnimateTrees = heroInView && pageVisible;
     const rect = hero.getBoundingClientRect();
     const px = pointer.x - rect.left;
     const py = pointer.y - rect.top;
 
-    treeState.forEach((state, index) => {
-      const xBase = rect.width * state.anchorX;
-      const yBase = rect.height * state.anchorY;
-      const waveX = Math.sin(time * state.speed + state.phase) * state.amplitude;
-      const waveY = Math.cos(time * (state.speed * 0.8) + state.phase) * (state.amplitude * 0.55);
-      const dx = px - (xBase + waveX);
-      const dy = py - (yBase + waveY);
-      const distance = Math.hypot(dx, dy);
-      const influenceRadius = 145;
+    if (shouldAnimateTrees) {
+      treeState.forEach((state, index) => {
+        state.anchorX += (state.targetAnchorX - state.anchorX) * 0.02;
+        state.anchorY += (state.targetAnchorY - state.anchorY) * 0.02;
 
-      if (distance < influenceRadius && pointer.active) {
-        const force = (1 - distance / influenceRadius) * 19;
-        const angle = Math.atan2(dy, dx);
-        state.repel.x -= Math.cos(angle) * force;
-        state.repel.y -= Math.sin(angle) * force;
-      }
+        const xBase = rect.width * state.anchorX;
+        const yBase = rect.height * state.anchorY;
+        const waveX = Math.sin(time * state.speed + state.phase) * state.amplitude;
+        const waveY = Math.cos(time * (state.speed * 0.8) + state.phase) * (state.amplitude * 0.55);
+        const dx = px - (xBase + waveX);
+        const dy = py - (yBase + waveY);
+        const distance = Math.hypot(dx, dy);
+        const influenceRadius = 145;
 
-      state.repel.x *= 0.88;
-      state.repel.y *= 0.88;
+        if (distance < influenceRadius && pointer.active) {
+          const force = (1 - distance / influenceRadius) * 19;
+          const angle = Math.atan2(dy, dx);
+          state.repel.x -= Math.cos(angle) * force;
+          state.repel.y -= Math.sin(angle) * force;
+        }
 
-      const offsetX = waveX + state.repel.x;
-      const offsetY = waveY + state.repel.y;
-      state.element.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${state.scale})`;
+        state.repel.x *= 0.88;
+        state.repel.y *= 0.88;
 
-      state.element.style.zIndex = index + (distance < influenceRadius ? 4 : 2);
-    });
+        const offsetX = waveX + state.repel.x;
+        const offsetY = waveY + state.repel.y;
+        state.element.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${state.scale})`;
+
+        state.element.style.zIndex = index + (distance < influenceRadius ? 4 : 2);
+      });
+    }
 
     if (cursor && cursorRing && cursorDot) {
       cursorPos.x += (pointer.x - cursorPos.x) * 0.18;
@@ -207,6 +246,25 @@ if (hero && forest) {
     pointer.active = false;
     if (cursor) cursor.classList.remove("visible");
   });
+
+  const heroObserver = new IntersectionObserver(
+    (entries) => {
+      heroInView = entries.some((entry) => entry.isIntersecting);
+    },
+    { threshold: 0.05 }
+  );
+  heroObserver.observe(hero);
+
+  document.addEventListener("visibilitychange", () => {
+    pageVisible = !document.hidden;
+  });
+
+  // Re-scramble anchors periodically for a living scene.
+  applyScrambledAnchors(treeState);
+  window.setInterval(() => {
+    if (!heroInView) return;
+    applyScrambledAnchors(treeState);
+  }, 12000);
 
   requestAnimationFrame(animateFrame);
 }
@@ -273,3 +331,4 @@ if (hero && (heroContent || forest)) {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", applyParallax);
 }
+

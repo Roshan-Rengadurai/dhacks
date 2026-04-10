@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Terrain -- A Living Data Surface</title>
+    <title>terrain -- A Living Data Surface</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Work+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -15,12 +15,11 @@
   <body>
     <div class="grain"></div>
     <header class="site-header">
-      <div class="brand">Terrain</div>
+      <div class="brand">
+        <img src="assets/terrain-logo.png" alt="terrain logo" class="brand-logo" />
+        <span>terrain</span>
+      </div>
       <nav class="nav">
-        <a class="nav-link" href="#tabs">Platform</a>
-        <a class="nav-link" href="#studio">Studio</a>
-        <a class="nav-link" href="#values">Values</a>
-        <a class="nav-link" href="#contact">Contact</a>
         <a class="nav-link ghost" href="login.html">Login</a>
         <a class="nav-link solid" href="signup.html">Sign up</a>
       </nav>
@@ -31,30 +30,36 @@
         <canvas id="hero-webgl" aria-hidden="true"></canvas>
         <div class="hero-forest" aria-hidden="true"></div>
         <div class="hero-content">
-          <p class="eyebrow">Terrain -- Modeling living systems</p>
+          <p class="eyebrow">SMALL BUSINESS ENERGY WASTE · $141B / YEAR · LOCAL GRID MATTERS</p>
           <h1>
-            Grow
-            <span>insightful</span>
-            environments
-            <span>for prediction</span>
+            Bad advice
+            <span>wastes $141B</span>
+            every year
           </h1>
           <p class="lede">
-            Terrain is a dark-green, earth-toned studio for forecasting environmental and
-            ecological outcomes, designed to feel tactile, grounded, and human.
+            Small businesses waste over $141 billion annually on energy because generic
+            sustainability tools ignore local electric grids. Commercial buildings drive 31% of
+            U.S. emissions, 63% of owners lack actionable insights, and grid CO2 can vary 2.7X by
+            region -- 0.210 lb/kWh in California vs 0.568 in the Midwest. terrain uses EPA eGRID
+            precision to prioritize fixes that improve both utility rates and carbon outcomes.
           </p>
           <div class="hero-actions">
-            <a class="btn primary" href="signup.html">Request access</a>
-            <a class="btn" href="#tabs">Explore the platform</a>
+            <a class="btn primary" href="#tabs">Dashboard</a>
+            <a class="text-link" href="signup.html">Sign up</a>
           </div>
         </div>
+        <aside class="hero-aside">
+          <p>CA vs MIDWEST GRID CO2</p>
+          <strong>0.210 vs 0.568</strong>
+        </aside>
       </section>
 
       <section class="tabs" id="tabs">
         <div class="tabs-header">
           <h2>Platform tabs</h2>
-          <p>Switch between modules that shape how Terrain predicts, plans, and reports.</p>
+          <p>Switch between modules that shape how terrain predicts, plans, and reports.</p>
         </div>
-        <div class="tab-controls" role="tablist" aria-label="Terrain modules">
+        <div class="tab-controls" role="tablist" aria-label="terrain modules">
           <button class="tab-button active" role="tab" aria-selected="true" aria-controls="tab-forecast" id="tab-forecast-button">
             Forecast
           </button>
@@ -166,7 +171,7 @@
         <div>
           <h2>Studio</h2>
           <p>
-            Terrain is built for teams modeling living systems, from conservation programs to climate
+            terrain is built for teams modeling living systems, from conservation programs to climate
             resilience labs. We keep the interface calm, the data meaningful, and the technology
             respectfully light.
           </p>
@@ -205,7 +210,7 @@
     </main>
 
     <footer class="site-footer">
-      <p>(c) 2026 Terrain. Crafted with restraint and care.</p>
+      <p>(c) 2026 terrain. Crafted with restraint and care.</p>
     </footer>
 
     <div class="custom-cursor" aria-hidden="true">
