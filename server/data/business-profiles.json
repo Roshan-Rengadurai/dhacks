@@ -1,0 +1,94 @@
+{
+  "restaurant": {
+    "label": "Restaurant",
+    "avg_kwh_per_sqft": 38,
+    "breakdown": {
+      "hvac": 28,
+      "lighting": 13,
+      "cooking": 35,
+      "refrigeration": 17,
+      "other": 7
+    },
+    "actions": [
+      { "id": "led-lighting", "label": "Switch to LED lighting", "savings_percent": 8, "category": "lighting" },
+      { "id": "smart-thermostat", "label": "Install smart thermostat", "savings_percent": 12, "category": "hvac" },
+      { "id": "energy-star-equipment", "label": "Replace with ENERGY STAR kitchen equipment", "savings_percent": 15, "category": "cooking" },
+      { "id": "door-seals", "label": "Fix refrigerator door seals and coils", "savings_percent": 5, "category": "refrigeration" },
+      { "id": "occupancy-sensors", "label": "Add occupancy sensors for lighting", "savings_percent": 6, "category": "lighting" },
+      { "id": "hvac-maintenance", "label": "Schedule quarterly HVAC maintenance", "savings_percent": 8, "category": "hvac" },
+      { "id": "off-peak-cooking", "label": "Shift heavy cooking to off-peak hours", "savings_percent": 4, "category": "cooking" }
+    ]
+  },
+  "retail": {
+    "label": "Retail Store",
+    "avg_kwh_per_sqft": 22,
+    "breakdown": {
+      "hvac": 35,
+      "lighting": 40,
+      "electronics": 15,
+      "other": 10
+    },
+    "actions": [
+      { "id": "led-lighting", "label": "Switch to LED lighting", "savings_percent": 15, "category": "lighting" },
+      { "id": "smart-thermostat", "label": "Install smart thermostat", "savings_percent": 10, "category": "hvac" },
+      { "id": "daylight-harvesting", "label": "Install daylight harvesting sensors", "savings_percent": 8, "category": "lighting" },
+      { "id": "hvac-setback", "label": "Program HVAC setback for non-business hours", "savings_percent": 12, "category": "hvac" },
+      { "id": "power-strips", "label": "Use smart power strips for electronics", "savings_percent": 4, "category": "electronics" },
+      { "id": "window-film", "label": "Apply solar window film", "savings_percent": 6, "category": "hvac" }
+    ]
+  },
+  "office": {
+    "label": "Office Building",
+    "avg_kwh_per_sqft": 17,
+    "breakdown": {
+      "hvac": 40,
+      "lighting": 25,
+      "electronics": 25,
+      "other": 10
+    },
+    "actions": [
+      { "id": "led-lighting", "label": "Switch to LED lighting", "savings_percent": 10, "category": "lighting" },
+      { "id": "smart-thermostat", "label": "Install smart thermostat", "savings_percent": 12, "category": "hvac" },
+      { "id": "power-management", "label": "Enable PC power management policies", "savings_percent": 8, "category": "electronics" },
+      { "id": "occupancy-sensors", "label": "Add occupancy sensors for lighting and HVAC", "savings_percent": 10, "category": "hvac" },
+      { "id": "vfd-fans", "label": "Install variable frequency drives on HVAC fans", "savings_percent": 7, "category": "hvac" },
+      { "id": "natural-ventilation", "label": "Use natural ventilation when weather permits", "savings_percent": 5, "category": "hvac" }
+    ]
+  },
+  "warehouse": {
+    "label": "Warehouse",
+    "avg_kwh_per_sqft": 9,
+    "breakdown": {
+      "hvac": 20,
+      "lighting": 45,
+      "equipment": 25,
+      "other": 10
+    },
+    "actions": [
+      { "id": "led-highbay", "label": "Replace high-bay fixtures with LED", "savings_percent": 20, "category": "lighting" },
+      { "id": "skylights", "label": "Install skylights or solar tubes", "savings_percent": 10, "category": "lighting" },
+      { "id": "dock-seals", "label": "Upgrade loading dock seals", "savings_percent": 5, "category": "hvac" },
+      { "id": "destratification-fans", "label": "Install destratification fans", "savings_percent": 8, "category": "hvac" },
+      { "id": "equipment-scheduling", "label": "Schedule heavy equipment use off-peak", "savings_percent": 4, "category": "equipment" }
+    ]
+  },
+  "hotel": {
+    "label": "Hotel",
+    "avg_kwh_per_sqft": 25,
+    "breakdown": {
+      "hvac": 38,
+      "lighting": 20,
+      "hot_water": 22,
+      "laundry": 12,
+      "other": 8
+    },
+    "actions": [
+      { "id": "led-lighting", "label": "Switch to LED lighting", "savings_percent": 8, "category": "lighting" },
+      { "id": "smart-thermostat", "label": "Install in-room smart thermostats", "savings_percent": 15, "category": "hvac" },
+      { "id": "key-card-hvac", "label": "Key-card activated room HVAC", "savings_percent": 10, "category": "hvac" },
+      { "id": "heat-pump-water", "label": "Install heat pump water heaters", "savings_percent": 12, "category": "hot_water" },
+      { "id": "ozone-laundry", "label": "Use ozone laundry systems", "savings_percent": 8, "category": "laundry" },
+      { "id": "occupancy-sensors", "label": "Add hallway and bathroom occupancy sensors", "savings_percent": 5, "category": "lighting" }
+    ]
+  }
+}
