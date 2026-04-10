@@ -26,6 +26,12 @@ export default function AuthForm({ mode }: AuthFormProps) {
     setError(null);
     setLoading(true);
 
+    if (!supabase) {
+      setLoading(false);
+      setError("Auth is not configured yet. Add Supabase env vars to continue.");
+      return;
+    }
+
     const { error: authError } =
       mode === "login"
         ? await supabase.auth.signInWithPassword({ email, password })

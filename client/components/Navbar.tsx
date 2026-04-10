@@ -13,6 +13,8 @@ export default function Navbar() {
   const supabase = getSupabaseBrowserClient();
 
   useEffect(() => {
+    if (!supabase) return;
+
     supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
 
     const {
@@ -25,6 +27,7 @@ export default function Navbar() {
   }, []);
 
   async function handleLogout() {
+    if (!supabase) return;
     await supabase.auth.signOut();
     router.push("/");
     router.refresh();

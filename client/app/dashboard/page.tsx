@@ -83,6 +83,11 @@ export default function DashboardPage() {
   const [hours, setHours] = useState("");
 
   useEffect(() => {
+    if (!supabase) {
+      router.push("/auth/login");
+      return;
+    }
+
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) {
         router.push("/auth/login");
@@ -93,6 +98,9 @@ export default function DashboardPage() {
   }, []);
 
   async function getAuthHeader() {
+    if (!supabase) {
+      throw new Error("Supabase is not configured");
+    }
     const { data } = await supabase.auth.getSession();
     return { Authorization: `Bearer ${data.session?.access_token}` };
   }
