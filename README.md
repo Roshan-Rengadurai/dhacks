@@ -1,8 +1,6 @@
 # Terrain
 
-> Too Good To Go, but for wasted energy.
-
-EnergyIQ helps businesses figure out where their energy actually goes — and what to do about it. You punch in your business type, zip code, square footage, and monthly bill, and we map you to real EPA eGRID emission data for your local utility grid. Not a national average. *Your* grid.
+Terrain helps businesses figure out where their energy actually goes — and what to do about it. You punch in your business type, zip code, square footage, and monthly bill, and we map you to real EPA eGRID emission data for your local utility grid. Not a national average. *Your* grid.
 
 Then you get an action plan you can customize, a letter grade, and a 90-day roadmap.
 
